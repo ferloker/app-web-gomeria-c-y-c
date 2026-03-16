@@ -225,7 +225,15 @@ export default function AdminDashboard() {
                    <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">WhatsApp de Recepción</label>
                    <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
                      <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">call</span></span>
-                     <input value={settings?.whatsapp_number} onChange={e=>handleChangeSetting('whatsapp_number', e.target.value)} onBlur={handleSaveSettingsField} className="w-full p-4 text-sm text-white outline-none bg-transparent font-mono" />
+                     <input value={settings?.whatsapp_number || ''} onChange={e=>handleChangeSetting('whatsapp_number', e.target.value)} onBlur={handleSaveSettingsField} className="w-full p-4 text-sm text-white outline-none bg-transparent font-mono" />
+                   </div>
+                 </div>
+                 
+                 <div>
+                   <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Horario de Atención</label>
+                   <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
+                     <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">schedule</span></span>
+                     <input value={settings?.business_hours || ''} onChange={e=>handleChangeSetting('business_hours', e.target.value)} onBlur={handleSaveSettingsField} className="w-full p-4 text-sm text-white outline-none bg-transparent" placeholder="Ej: Lunes a Sábados de 07:00 a 19:00" />
                    </div>
                  </div>
                  

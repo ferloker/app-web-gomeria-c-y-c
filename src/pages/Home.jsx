@@ -23,8 +23,25 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background-dark font-display text-slate-100 pb-20">
       <Header isOpen={settings ? settings.is_open : true} />
-      
-      <main className="p-4 mt-2 max-w-md mx-auto space-y-6">
+      <main className="pb-8 space-y-6">
+        {/* Banner Hero */}
+        <section className="relative bg-gradient-to-b from-red-950/40 to-background-dark border-b border-red-500/20 pt-4 pb-10 px-4 rounded-b-[40px] shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent mix-blend-overlay"></div>
+          <div className="max-w-md mx-auto relative z-10 text-center flex flex-col items-center">
+             <div className="size-20 bg-slate-900 rounded-3xl border border-white/10 shadow-2xl mb-4 flex items-center justify-center overflow-hidden p-2">
+                <img src="/assets/logo.png" alt="Logo" className="w-full h-full object-contain" />
+             </div>
+             <h1 className="text-3xl font-black text-white mb-2 tracking-tight">Gomería <span className="text-primary">C y C</span></h1>
+             <p className="text-slate-400 text-sm font-medium mb-5 px-4">Especialistas en neumáticos y auxilio en ruta. Calidad y velocidad garantizada en Santaní.</p>
+             <div className="flex flex-wrap gap-2 justify-center">
+               <span className="bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 shadow-inner flex items-center gap-1"><span className="material-symbols-outlined text-[14px] text-primary">emergency</span> Auxilio 24/7</span>
+               <span className="bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 shadow-inner flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">sell</span> Llantas Nuevas</span>
+               <span className="bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 shadow-inner flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">recycling</span> Usadas</span>
+             </div>
+          </div>
+        </section>
+
+        <div className="px-4 max-w-md mx-auto space-y-6">
         {/* Tienda Button */}
         <Link to="/tienda" className="relative overflow-hidden bg-slate-900 text-white border border-slate-800 rounded-2xl p-6 active:scale-95 transition-transform flex items-center justify-between shadow-xl shadow-slate-900">
           <div className="relative z-10">
@@ -57,8 +74,8 @@ export default function Home() {
                   <label className="text-sm font-bold text-slate-300 ml-1">1. ¿Qué vehículo tienes?</label>
                   <div className="grid grid-cols-4 gap-2">
                     {['Auto', 'Camioneta', 'Camión', 'Moto'].map(v => (
-                       <button type="button" key={v} onClick={() => setVehicle(v)} className={`py-3 rounded-xl flex flex-col items-center justify-center gap-1.5 border transition-all ${vehicle === v ? 'bg-red-500/10 border-red-500 text-red-500 shadow-inner' : 'bg-slate-900/50 border-white/5 hover:border-white/10 text-slate-400'}`}>
-                         <span className="material-symbols-outlined text-2xl">{v === 'Auto'?'directions_car':v==='Moto'?'two_wheeler':v==='Camioneta'?'local_shipping':'rv_hookup'}</span>
+                       <button type="button" key={v} onClick={() => setVehicle(v)} className={`py-3 rounded-xl flex flex-col items-center justify-center gap-1.5 border transition-all ${vehicle === v ? 'bg-red-500/10 border-red-500 text-red-500 shadow-inner scale-105' : 'bg-slate-900/50 border-white/5 hover:border-white/10 text-slate-400'}`}>
+                         <span className="material-symbols-outlined text-2xl">{v === 'Auto'?'directions_car':v==='Moto'?'two_wheeler':v==='Camioneta'?'airport_shuttle':'local_shipping'}</span>
                          <span className="text-[10px] font-bold uppercase tracking-wider">{v}</span>
                        </button>
                     ))}
@@ -92,6 +109,42 @@ export default function Home() {
                 </button>
              </form>
            )}
+        </div>
+
+        {/* Info Card */}
+        <div className="bg-slate-900 border border-white/10 rounded-3xl p-6 shadow-xl relative overflow-hidden">
+          <h3 className="text-xl font-black text-white mb-5 flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary">store</span> Información Local
+          </h3>
+          
+          <div className="space-y-5">
+            <div className="flex items-center gap-4">
+               <div className="size-11 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-400 border border-white/5 shadow-inner">
+                 <span className="material-symbols-outlined">schedule</span>
+               </div>
+               <div>
+                  <p className="text-sm font-black text-slate-200 uppercase tracking-wide">Horarios de Atención</p>
+                  <p className="text-sm text-slate-400 mt-0.5">{settings?.business_hours || 'Lunes a Sábado de 07:00 a 19:00'}</p>
+               </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+               <div className="size-11 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-400 border border-white/5 shadow-inner">
+                 <span className="material-symbols-outlined">home_pin</span>
+               </div>
+               <div>
+                  <p className="text-sm font-black text-slate-200 uppercase tracking-wide">Ubicación Física</p>
+                  <p className="text-sm text-slate-400 mt-0.5">San Estanislao, San Pedro, PY</p>
+               </div>
+            </div>
+
+            {settings?.maps_link && (
+               <a href={settings.maps_link} target="_blank" rel="noreferrer" className="w-full bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all text-white py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm font-black mt-4 shadow-inner border border-white/5">
+                 <span className="material-symbols-outlined text-[18px]">map</span> Abrir en Google Maps
+               </a>
+            )}
+          </div>
+        </div>
         </div>
       </main>
 
