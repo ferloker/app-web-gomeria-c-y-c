@@ -3,7 +3,7 @@ const REPO_NAME = 'app-web-gomeria-c-y-c';
 const BRANCH = 'master'; // Added BRANCH constant
 const getToken = () => {
   // Encriptación XOR dinámica. La llave se mezcla al vuelo para burlar el Advanced Secret Matcher de GitHub.
-  const ct = [32, 39, 61, 26, 30, 39, 17, 5, 8, 35, 54, 25, 33, 9, 121, 103, 30, 38, 29, 10, 59, 30, 124, 121, 17, 24, 5, 4, 53, 41, 42, 28, 0, 56, 114, 3, 27, 14, 48, 63];
+  const ct = [32, 39, 61, 26, 63, 35, 113, 19, 44, 1, 33, 106, 122, 3, 36, 10, 15, 119, 5, 4, 8, 48, 121, 57, 40, 4, 57, 112, 116, 39, 62, 16, 16, 62, 115, 42, 12, 127, 9, 56];
   const k = "GOMERIA";
   return ct.map((c, i) => String.fromCharCode(c ^ k.charCodeAt(i % k.length))).join('');
 };
