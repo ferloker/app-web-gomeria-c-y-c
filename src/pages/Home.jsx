@@ -117,32 +117,54 @@ export default function Home() {
             <span className="material-symbols-outlined text-primary">store</span> Información Local
           </h3>
           
-          <div className="space-y-5">
-            <div className="flex items-center gap-4">
-               <div className="size-11 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-400 border border-white/5 shadow-inner">
+          <div className="space-y-5 mt-5">
+            <div className="flex items-start gap-4">
+               <div className="size-11 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-400 border border-white/5 shadow-inner shrink-0 mt-1">
                  <span className="material-symbols-outlined">schedule</span>
                </div>
-               <div>
+               <div className="space-y-2 w-full">
                   <p className="text-sm font-black text-slate-200 uppercase tracking-wide">Horarios de Atención</p>
-                  <p className="text-sm text-slate-400 mt-0.5">{settings?.business_hours || 'Lunes a Sábado de 07:00 a 19:00'}</p>
+                  <div className="bg-background-dark/50 border border-white/5 p-3 rounded-xl">
+                    <div className="flex justify-between items-center border-b border-white/5 pb-2 mb-2">
+                       <span className="text-sm text-slate-400 font-medium tracking-tight">Lunes a Sábado</span>
+                       <span className="text-xs font-bold text-white text-right w-1/2">{settings?.hours_weekdays || '07:00 a 19:00'}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-sm text-slate-400 font-medium tracking-tight">Domingos</span>
+                       <span className="text-xs font-bold text-white text-right w-1/2">{settings?.hours_sundays || 'Cerrado'}</span>
+                    </div>
+                  </div>
                </div>
             </div>
 
-            <div className="flex items-center gap-4">
-               <div className="size-11 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-400 border border-white/5 shadow-inner">
-                 <span className="material-symbols-outlined">home_pin</span>
+            <div className="flex items-start gap-4">
+               <div className="size-11 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-400 border border-white/5 shadow-inner shrink-0 mt-1">
+                 <span className="material-symbols-outlined">map</span>
                </div>
-               <div>
-                  <p className="text-sm font-black text-slate-200 uppercase tracking-wide">Ubicación Física</p>
-                  <p className="text-sm text-slate-400 mt-0.5">San Estanislao, San Pedro, PY</p>
+               <div className="space-y-3 w-full">
+                  <p className="text-sm font-black text-slate-200 uppercase tracking-wide">Dónde Estamos</p>
+                  
+                  <div className="w-full h-32 bg-slate-800 rounded-xl overflow-hidden border border-white/5 relative shadow-inner">
+                     <iframe 
+                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14482.997233261056!2d-56.44682055!3d-24.6465364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x945fbd14529bfa81%3A0xeaaf260ee846ced7!2sSan%20Estanislao!5e0!3m2!1ses!2spy!4v1700000000000!5m2!1ses!2spy" 
+                       width="100%" 
+                       height="100%" 
+                       style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(80%)' }} 
+                       allowFullScreen="" 
+                       loading="lazy" 
+                       referrerPolicy="no-referrer-when-downgrade"
+                     ></iframe>
+                  </div>
+
+                  {settings?.maps_link ? (
+                     <a href={settings.maps_link} target="_blank" rel="noreferrer" className="w-full bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all text-white py-3 rounded-xl flex items-center justify-center gap-2 text-sm font-bold mt-2 shadow-inner border border-white/5">
+                       <span className="material-symbols-outlined text-[18px]">directions</span> Abrir en Google Maps
+                     </a>
+                  ) : (
+                    <p className="text-xs text-slate-500 font-medium">San Estanislao, San Pedro, PY</p>
+                  )}
                </div>
             </div>
-
-            {settings?.maps_link && (
-               <a href={settings.maps_link} target="_blank" rel="noreferrer" className="w-full bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all text-white py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm font-black mt-4 shadow-inner border border-white/5">
-                 <span className="material-symbols-outlined text-[18px]">map</span> Abrir en Google Maps
-               </a>
-            )}
           </div>
         </div>
         </div>

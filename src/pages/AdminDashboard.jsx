@@ -16,6 +16,7 @@ export default function AdminDashboard() {
   const [form, setForm] = useState({ brand: '', size: '', type: 'Nuevo', price_only: '', stock: '1' });
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [savingSettings, setSavingSettings] = useState(false);
 
   // Authentication
   const handleLogin = (e) => {
@@ -35,8 +36,6 @@ export default function AdminDashboard() {
   const handleTogglePanic = () => syncSettings({ ...settings, pause_auxilio: !settings.pause_auxilio });
   const handleToggleOpen = (e) => syncSettings({ ...settings, is_open: e.target.checked });
   const handleChangeSetting = (field, value) => setSettings({ ...settings, [field]: value });
-  // only save settings on blur or button click to avoid rate limit
-  const handleSaveSettingsField = () => syncSettings(settings); // already updated local state
 
   const handleAddItem = async () => {
     if (!form.brand || !form.size || !form.price_only) return alert('Campos obligatorios');
@@ -225,15 +224,23 @@ export default function AdminDashboard() {
                    <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">WhatsApp de Recepción</label>
                    <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
                      <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">call</span></span>
-                     <input value={settings?.whatsapp_number || ''} onChange={e=>handleChangeSetting('whatsapp_number', e.target.value)} onBlur={handleSaveSettingsField} className="w-full p-4 text-sm text-white outline-none bg-transparent font-mono" />
+                     <input value={settings?.whatsapp_number || ''} onChange={e=>handleChangeSetting('whatsapp_number', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent font-mono" />
                    </div>
                  </div>
                  
                  <div>
-                   <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Horario de Atención</label>
+                   <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Horarios (Lunes a Sábado)</label>
                    <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
-                     <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">schedule</span></span>
-                     <input value={settings?.business_hours || ''} onChange={e=>handleChangeSetting('business_hours', e.target.value)} onBlur={handleSaveSettingsField} className="w-full p-4 text-sm text-white outline-none bg-transparent" placeholder="Ej: Lunes a Sábados de 07:00 a 19:00" />
+                     <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">calendar_today</span></span>
+                     <input value={settings?.hours_weekdays || ''} onChange={e=>handleChangeSetting('hours_weekdays', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent" placeholder="Ej: 07:00 a 19:00" />
+                   </div>
+                 </div>
+
+                 <div>
+                   <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Horarios (Domingos)</label>
+                   <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
+                     <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">event</span></span>
+                     <input value={settings?.hours_sundays || ''} onChange={e=>handleChangeSetting('hours_sundays', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent" placeholder="Ej: 08:00 a 12:00 o Cerrado" />
                    </div>
                  </div>
                  
@@ -241,10 +248,20 @@ export default function AdminDashboard() {
                    <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Link de Google Maps</label>
                    <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
                      <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">map</span></span>
-                     <input value={settings?.maps_link} onChange={e=>handleChangeSetting('maps_link', e.target.value)} onBlur={handleSaveSettingsField} className="w-full p-4 text-sm text-white outline-none bg-transparent" />
+                     <input value={settings?.maps_link || ''} onChange={e=>handleChangeSetting('maps_link', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent" />
                    </div>
                  </div>
                </div>
+               
+               <button onClick={async () => {
+                 setSavingSettings(true);
+                 await syncSettings(settings);
+                 setSavingSettings(false);
+                 alert('¡Ajustes guardados correctamente en GitHub!');
+               }} className="w-full bg-primary hover:bg-red-500 active:scale-95 transition-all text-white py-4 flex items-center justify-center gap-2 rounded-xl font-black mt-2 shadow-[0_0_20px_rgba(220,38,38,0.2)]">
+                 <span className="material-symbols-outlined text-[20px]">{savingSettings ? 'sync' : 'save'}</span> 
+                 {savingSettings ? 'Guardando CMS...' : 'Guardar Configuración Web'}
+               </button>
                
                <button onClick={() => navigator.clipboard.writeText(`¡Hola! Gracias por elegir Gomería C y C. ¿Podrías dejarnos 5 estrellas en Google Maps? Haz clic aquí: ${settings?.maps_link}`)} className="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 py-4 rounded-xl flex items-center justify-center gap-2 font-bold text-slate-300 active:scale-95 transition-all shadow-inner mt-2">
                  <span className="material-symbols-outlined text-[18px]">content_copy</span> Copiar Autorespuesta
