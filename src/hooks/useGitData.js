@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getRawUrl } from '../services/github.js';
+import { fetchJsonData } from '../services/github.js';
 
 export function useGitData(path, defaultConfig) {
   const [data, setData] = useState(defaultConfig);
@@ -7,15 +7,12 @@ export function useGitData(path, defaultConfig) {
 
   const fetchData = async (isMounted = true) => {
     setLoading(true);
-    // Usar timestamp para romper la cache estresante de GitHub Raw
-    const url = `${getRawUrl(path)}?t=${new Date().getTime()}`;
     try {
-      const res = await fetch(url);
-      if (res.ok) {
-        const json = await res.json();
+      const json = await fetchJsonData(path);
+      if (json) {
         if (isMounted) setData(json);
       } else {
-        // Si es 404 es porque aún no fue creado en main (ej: primer deploy)
+        // Si es null es porque aún no fue creado o hubo error 404
         if (isMounted) setData(defaultConfig);
       }
     } catch (err) {

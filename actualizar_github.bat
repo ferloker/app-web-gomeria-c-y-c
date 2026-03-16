@@ -19,7 +19,7 @@ echo.
 
 echo [4/4] Actualizando web publica (Firebase)...
 call npm run build
-call firebase deploy
+call npx --yes firebase-tools deploy
 echo.
 
 echo ==============================================

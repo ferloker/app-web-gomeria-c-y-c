@@ -74,7 +74,29 @@ export const saveJsonDB = async (path, obj, contextMsg) => {
   await updateFile(path, base64Content, contextMsg);
 };
 
-// URL de lectura en vivo que ignora la cache (para leer data inmediatamente después del commit)
+// Fetch data directly from API to bypass raw.githubusercontent.com 5-minute CDN cache
+export const fetchJsonData = async (path) => {
+  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`;
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `token ${getToken()}`,
+        Accept: 'application/vnd.github.v3.raw'
+      }
+    });
+    if (!res.ok) {
+      if (res.status === 404) return null;
+      throw new Error(`Error fetching data: ${res.statusText}`);
+    }
+    const data = await res.json();
+    return data;
+  } catch(err) {
+    console.error('Fetch JSON API error:', err);
+    return null;
+  }
+};
+
+// Mantenemos la original por compatibilidad o imagenes
 export const getRawUrl = (path) => {
-  return `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${path}`;
+  return `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${path}?t=${Date.now()}`;
 };
