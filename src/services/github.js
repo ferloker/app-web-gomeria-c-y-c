@@ -1,7 +1,10 @@
 const REPO_OWNER = 'ferloker';
 const REPO_NAME = 'app-web-gomeria-c-y-c';
 const BRANCH = 'master'; // O main dependiendo de la init de git
-const TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
+
+const getToken = () => {
+  return localStorage.getItem('GOMERIA_GITHUB_TOKEN') || import.meta.env.VITE_GITHUB_TOKEN;
+};
 
 // Extraer el SHA actual de un archivo para poder sobrescribirlo
 export const getFileSha = async (path) => {
@@ -9,7 +12,7 @@ export const getFileSha = async (path) => {
     const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`;
     const res = await fetch(url, {
       headers: { 
-        Authorization: `token ${TOKEN}`,
+        Authorization: `token ${getToken()}`,
         Accept: 'application/vnd.github.v3+json'
       }
     });
@@ -37,7 +40,7 @@ export const updateFile = async (path, contentBase64, message) => {
   const res = await fetch(url, {
     method: 'PUT',
     headers: {
-      Authorization: `token ${TOKEN}`,
+      Authorization: `token ${getToken()}`,
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github.v3+json'
     },

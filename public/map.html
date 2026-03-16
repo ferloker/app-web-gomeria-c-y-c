@@ -52,18 +52,25 @@
                 .setLngLat(targetCoord)
                 .addTo(map);
 
-            // Animación Fly-in tras cargar brevemente
-            setTimeout(() => {
-                map.flyTo({
-                    center: targetCoord,
-                    zoom: 16.8,      // Nivel de zoom perfecto para ciudad
-                    pitch: 62,       // Inclinación 3D espectacular
-                    bearing: 25,     // Rotación leve
-                    speed: 0.9,      // Velocidad
-                    curve: 1.5,      // Efecto parabólico
-                    essential: true
-                });
-            }, 600);
+            // Observador para animar el mapa solo cuando el usuario haga scroll hasta él
+            var observer = new IntersectionObserver(function(entries) {
+                if (entries[0].isIntersecting) {
+                    setTimeout(() => {
+                        map.flyTo({
+                            center: targetCoord,
+                            zoom: 16.8,      // Nivel de zoom perfecto para ciudad
+                            pitch: 62,       // Inclinación 3D espectacular
+                            bearing: 25,     // Rotación leve
+                            speed: 0.9,      // Velocidad
+                            curve: 1.5,      // Efecto parabólico
+                            essential: true
+                        });
+                    }, 400);
+                    observer.disconnect(); // Desactivar para que no suceda más de una vez
+                }
+            }, { threshold: 0.3 });
+
+            observer.observe(document.getElementById('map'));
         });
     </script>
 </body>
