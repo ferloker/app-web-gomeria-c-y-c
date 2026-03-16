@@ -15,16 +15,20 @@ export const getFileSha = async (path) => {
     const res = await fetch(url, {
       headers: { 
         Authorization: `token ${getToken()}`,
-        Accept: 'application/vnd.github.v3+json',
-        'Cache-Control': 'no-cache'
+        Accept: 'application/vnd.github.v3+json'
       }
     });
-    if (res.status === 404) return null;
     const data = await res.json();
+    if (res.status === 404) return null; // File might really not exist yet
+    if (!res.ok) throw new Error(data.message || 'Failed to fetch SHA');
+    
+    // In some cases API returns array for dirs, we expect object for file
+    if (Array.isArray(data)) throw new Error('Path is a directory, not a file');
+    
     return data.sha;
   } catch (err) {
     console.error('Error fetching SHA:', err);
-    return null;
+    throw err; // Re-throw to prevent saving without a required SHA
   }
 };
 

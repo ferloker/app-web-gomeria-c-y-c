@@ -146,7 +146,7 @@ export default function Home() {
                   
                   <div className="w-full h-40 bg-slate-800 rounded-xl overflow-hidden border border-white/5 relative shadow-inner animate-in zoom-in duration-1000 ease-out fill-mode-both">
                      <iframe 
-                       src={`/map.html?lat=${settings?.map_lat || '-24.661366060311497'}&lng=${settings?.map_lng || '-56.44231702242412'}`} 
+                       src={`/map.html?lat=${(settings?.map_coords || '-24.661366, -56.442317').split(',')[0].trim()}&lng=${(settings?.map_coords || '-24.661366, -56.442317').split(',')[1]?.trim() || '-56.442317'}`} 
                        width="100%" 
                        height="100%" 
                        style={{ border: 0 }} 
