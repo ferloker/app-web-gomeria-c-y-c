@@ -17,6 +17,7 @@ export default function AdminDashboard() {
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [savingSettings, setSavingSettings] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Authentication
   const handleLogin = (e) => {
@@ -114,6 +115,14 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background-dark font-display text-slate-100 pb-24">
+      {/* Toast Notification */}
+      {showSuccess && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-green-500/90 border border-green-400 text-white px-6 py-3 rounded-full font-bold shadow-[0_10px_40px_rgba(34,197,94,0.4)] flex items-center gap-2 animate-in slide-in-from-top-4 fade-in duration-300">
+          <span className="material-symbols-outlined">check_circle</span>
+          <span className="text-sm">Configuración guardada en GitHub</span>
+        </div>
+      )}
+
       <Header isOpen={settings ? settings.is_open : true} />
 
       <main className="px-4 mt-6 space-y-8 max-w-md mx-auto">
@@ -257,7 +266,8 @@ export default function AdminDashboard() {
                  setSavingSettings(true);
                  await syncSettings(settings);
                  setSavingSettings(false);
-                 alert('¡Ajustes guardados correctamente en GitHub!');
+                 setShowSuccess(true);
+                 setTimeout(() => setShowSuccess(false), 3000);
                }} className="w-full bg-primary hover:bg-red-500 active:scale-95 transition-all text-white py-4 flex items-center justify-center gap-2 rounded-xl font-black mt-2 shadow-[0_0_20px_rgba(220,38,38,0.2)]">
                  <span className="material-symbols-outlined text-[20px]">{savingSettings ? 'sync' : 'save'}</span> 
                  {savingSettings ? 'Guardando CMS...' : 'Guardar Configuración Web'}

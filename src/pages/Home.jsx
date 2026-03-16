@@ -144,9 +144,9 @@ export default function Home() {
                <div className="space-y-3 w-full">
                   <p className="text-sm font-black text-slate-200 uppercase tracking-wide">Dónde Estamos</p>
                   
-                  <div className="w-full h-32 bg-slate-800 rounded-xl overflow-hidden border border-white/5 relative shadow-inner">
+                  <div className="w-full h-40 bg-slate-800 rounded-xl overflow-hidden border border-white/5 relative shadow-inner animate-in zoom-in duration-1000 ease-out fill-mode-both">
                      <iframe 
-                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14482.997233261056!2d-56.44682055!3d-24.6465364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x945fbd14529bfa81%3A0xeaaf260ee846ced7!2sSan%20Estanislao!5e0!3m2!1ses!2spy!4v1700000000000!5m2!1ses!2spy" 
+                       src="https://maps.google.com/maps?q=-24.660703544925347,-56.44251472304685&hl=es&z=17&output=embed" 
                        width="100%" 
                        height="100%" 
                        style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(80%)' }} 
