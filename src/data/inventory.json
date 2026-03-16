@@ -1,2 +1,12 @@
 [
+  {
+    "id": "N-2498",
+    "brand": "loker",
+    "size": "2050515",
+    "type": "Nuevo",
+    "price_only": 852,
+    "stock": 1,
+    "active": true,
+    "image_url": "https://raw.githubusercontent.com/ferloker/app-web-gomeria-c-y-c/master/public/uploads/tire_mmtjm0ji.jpg?t=1773687282498"
+  }
 ]
