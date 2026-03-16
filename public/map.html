@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Animated Map</title>
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; background-color: #0f172a; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; filter: invert(95%) hue-rotate(180deg) brightness(85%) contrast(85%); }
+        .marker {
+            background-color: #ef4444; /* tailwind red-500 */
+            width: 28px;
+            height: 28px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            border: 3px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+        /* OpenFreeMap attribution styling */
+        .maplibregl-ctrl-attrib {
+            background: rgba(0,0,0,0.5) !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        // Coordenadas objetivo (Santaní, Gomería C y C)
+        var targetCoord = [-56.44251472304685, -24.660703544925347]; // Lng, Lat
+        // Coordenadas de inicio más alejadas y rectas
+        var startCoord = [-56.44251472304685, -21.0];
+
+        var map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://tiles.openfreemap.org/styles/liberty', // Estilo abierto similar a la captura
+            center: startCoord,
+            zoom: 5,
+            pitch: 0,
+            bearing: 0,
+            interactive: false // deshabilitamos interacción para que parezca un widget
+        });
+
+        map.on('load', function () {
+            // Marcador personalizado
+            var el = document.createElement('div');
+            el.className = 'marker';
+            
+            new maplibregl.Marker({ element: el, anchor: 'bottom' })
+                .setLngLat(targetCoord)
+                .addTo(map);
+
+            // Animación Fly-in tras cargar brevemente
+            setTimeout(() => {
+                map.flyTo({
+                    center: targetCoord,
+                    zoom: 16.8,      // Nivel de zoom perfecto para ciudad
+                    pitch: 62,       // Inclinación 3D espectacular
+                    bearing: 25,     // Rotación leve
+                    speed: 0.9,      // Velocidad
+                    curve: 1.5,      // Efecto parabólico
+                    essential: true
+                });
+            }, 600);
+        });
+    </script>
+</body>
+</html>

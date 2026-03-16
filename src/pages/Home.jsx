@@ -146,13 +146,12 @@ export default function Home() {
                   
                   <div className="w-full h-40 bg-slate-800 rounded-xl overflow-hidden border border-white/5 relative shadow-inner animate-in zoom-in duration-1000 ease-out fill-mode-both">
                      <iframe 
-                       src="https://maps.google.com/maps?q=-24.660703544925347,-56.44251472304685&hl=es&z=17&output=embed" 
+                       src="/map.html" 
                        width="100%" 
                        height="100%" 
-                       style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(80%)' }} 
+                       style={{ border: 0 }} 
                        allowFullScreen="" 
                        loading="lazy" 
-                       referrerPolicy="no-referrer-when-downgrade"
                      ></iframe>
                   </div>
 

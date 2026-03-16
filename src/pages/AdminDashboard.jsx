@@ -30,12 +30,12 @@ export default function AdminDashboard() {
   };
 
   const syncSettings = async (newSettings) => {
-    setSettings(newSettings);
+    // We already set local state, but enforce synchronization
     await saveJsonDB('src/data/settings.json', newSettings, 'Update settings via Admin Panel');
   };
 
-  const handleTogglePanic = () => syncSettings({ ...settings, pause_auxilio: !settings.pause_auxilio });
-  const handleToggleOpen = (e) => syncSettings({ ...settings, is_open: e.target.checked });
+  const handleTogglePanic = () => setSettings({ ...settings, pause_auxilio: !settings.pause_auxilio });
+  const handleToggleOpen = (e) => setSettings({ ...settings, is_open: e.target.checked });
   const handleChangeSetting = (field, value) => setSettings({ ...settings, [field]: value });
 
   const handleAddItem = async () => {
@@ -264,13 +264,17 @@ export default function AdminDashboard() {
                
                <button onClick={async () => {
                  setSavingSettings(true);
-                 await syncSettings(settings);
+                 try {
+                   await syncSettings(settings); // Usa el estado local (no guardado auto)
+                   setShowSuccess(true);
+                   setTimeout(() => setShowSuccess(false), 3000);
+                 } catch (e) {
+                   alert("Error al guardar: " + e.message);
+                 }
                  setSavingSettings(false);
-                 setShowSuccess(true);
-                 setTimeout(() => setShowSuccess(false), 3000);
-               }} className="w-full bg-primary hover:bg-red-500 active:scale-95 transition-all text-white py-4 flex items-center justify-center gap-2 rounded-xl font-black mt-2 shadow-[0_0_20px_rgba(220,38,38,0.2)]">
-                 <span className="material-symbols-outlined text-[20px]">{savingSettings ? 'sync' : 'save'}</span> 
-                 {savingSettings ? 'Guardando CMS...' : 'Guardar Configuración Web'}
+               }} className={`w-full active:scale-95 transition-all text-white py-4 flex items-center justify-center gap-2 rounded-xl font-black mt-2 shadow-[0_0_20px_rgba(220,38,38,0.2)] ${showSuccess ? 'bg-green-500 shadow-green-500/40' : 'bg-primary hover:bg-red-500'}`}>
+                 <span className="material-symbols-outlined text-[20px]">{savingSettings ? 'sync' : showSuccess ? 'check_circle' : 'save'}</span> 
+                 {savingSettings ? 'Guardando CMS...' : showSuccess ? '¡Guardado con Éxito!' : 'Guardar Configuración Web'}
                </button>
                
                <button onClick={() => navigator.clipboard.writeText(`¡Hola! Gracias por elegir Gomería C y C. ¿Podrías dejarnos 5 estrellas en Google Maps? Haz clic aquí: ${settings?.maps_link}`)} className="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 py-4 rounded-xl flex items-center justify-center gap-2 font-bold text-slate-300 active:scale-95 transition-all shadow-inner mt-2">
