@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #dc2626;
+  --color-background-dark: #09090b;
+  --font-display: "Inter", sans-serif;
+}
+
+body {
+  background-color: var(--color-background-dark);
+  font-family: var(--font-display);
+  color: #f1f5f9;
+}
+
+/* Hide scrollbar for clean horizontal scrolls */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
