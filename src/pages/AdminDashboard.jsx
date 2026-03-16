@@ -204,6 +204,14 @@ export default function AdminDashboard() {
 
          {activeTab === 'settings' && (
            <div className="space-y-6 animate-in fade-in zoom-in-95 duration-200">
+             <div className="flex justify-end">
+                <div className="flex items-center gap-2">
+                  {setLoading && <span className="text-primary text-xs font-bold animate-pulse">Sincronizando...</span>}
+                  <button onClick={refetchSettings} className="bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 p-1.5 rounded-lg transition-all border border-white/5" title="Forzar Sincronización con GitHub">
+                    <span className={`material-symbols-outlined text-[18px] ${setLoading ? 'animate-spin text-primary' : ''}`}>sync</span>
+                  </button>
+                </div>
+             </div>
              <div className={`border rounded-3xl p-6 flex flex-col items-center gap-4 transition-colors ${settings?.pause_auxilio ? 'bg-red-950/40 border-red-500 shadow-[0_0_30px_rgba(220,38,38,0.3)]' : 'bg-slate-900 border-white/5 shadow-xl'}`}>
                <button onClick={handleTogglePanic} className={`w-20 h-20 rounded-full flex items-center justify-center text-white active:scale-90 transition-all shadow-xl ${settings?.pause_auxilio ? 'bg-red-500 animate-pulse shadow-red-500/50' : 'bg-slate-800'}`}>
                  <span className="material-symbols-outlined text-4xl">power_settings_new</span>
