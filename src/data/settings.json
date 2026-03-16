@@ -4,5 +4,6 @@
   "pause_auxilio": false,
   "maps_link": "https://maps.app.goo.gl/RgDfQfBGauzXucRD9",
   "hours_weekdays": "07:00 a 15:20",
-  "hours_sundays": "08:00 a 15:00"
+  "hours_sundays": "08:00 a 15:00",
+  "map_coords": "-24.661377367438764, -56.442320032822295"
 }
