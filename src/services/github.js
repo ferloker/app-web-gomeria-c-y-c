@@ -11,11 +11,12 @@ const getToken = () => {
 // Extraer el SHA actual de un archivo para poder sobrescribirlo
 export const getFileSha = async (path) => {
   try {
-    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`;
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`;
     const res = await fetch(url, {
       headers: { 
         Authorization: `token ${getToken()}`,
-        Accept: 'application/vnd.github.v3+json'
+        Accept: 'application/vnd.github.v3+json',
+        'Cache-Control': 'no-cache'
       }
     });
     if (res.status === 404) return null;
