@@ -3,5 +3,6 @@
   "whatsapp_number": "595981123456",
   "pause_auxilio": false,
   "maps_link": "https://maps.app.goo.gl/RgDfQfBGauzXucRD9",
-  "hours_weekdays": "07:00 a 23:00"
+  "hours_weekdays": "07:00 a 22:00",
+  "hours_sundays": "08:00 a 15:00"
 }
