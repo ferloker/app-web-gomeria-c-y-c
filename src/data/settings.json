@@ -1,7 +1,7 @@
 {
   "is_open": true,
   "whatsapp_number": "595973378073",
-  "pause_auxilio": false,
+  "pause_auxilio": true,
   "maps_link": "https://maps.app.goo.gl/RgDfQfBGauzXucRD9",
   "hours_weekdays": "07:00 a 15:20",
   "hours_sundays": "08:00 a 15:00"
