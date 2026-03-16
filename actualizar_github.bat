@@ -13,8 +13,13 @@ echo [2/3] Creando registro de actualizacion...
 git commit -m "Actualizacion del panel y codigo base"
 echo.
 
-echo [3/3] Subiendo a la nube (GitHub)...
+echo [3/4] Subiendo a la nube (GitHub)...
 git push origin master
+echo.
+
+echo [4/4] Actualizando web publica (Firebase)...
+call npm run build
+call firebase deploy
 echo.
 
 echo ==============================================

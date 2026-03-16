@@ -252,17 +252,29 @@ export default function AdminDashboard() {
                  
                  <div>
                    <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Horarios (Lunes a Sábado)</label>
-                   <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
-                     <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">calendar_today</span></span>
-                     <input value={settings?.hours_weekdays || ''} onChange={e=>handleChangeSetting('hours_weekdays', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent" placeholder="Ej: 07:00 a 19:00" />
+                   <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner items-center pl-4 pr-2">
+                     <span className="material-symbols-outlined text-[18px] text-slate-400 mr-2">calendar_today</span>
+                     <div className="flex items-center gap-2 w-full py-2">
+                       <input type="time" value={(settings?.hours_weekdays || '07:00 a 19:00').split(' a ')[0] || '07:00'} onChange={e => handleChangeSetting('hours_weekdays', `${e.target.value} a ${(settings?.hours_weekdays || '07:00 a 19:00').split(' a ')[1] || '19:00'}`)} className="bg-slate-800 text-white p-2 rounded-lg text-sm flex-1 outline-none text-center" />
+                       <span className="text-slate-500 font-bold">a</span>
+                       <input type="time" value={(settings?.hours_weekdays || '07:00 a 19:00').split(' a ')[1] || '19:00'} onChange={e => handleChangeSetting('hours_weekdays', `${(settings?.hours_weekdays || '07:00 a 19:00').split(' a ')[0] || '07:00'} a ${e.target.value}`)} className="bg-slate-800 text-white p-2 rounded-lg text-sm flex-1 outline-none text-center" />
+                     </div>
                    </div>
                  </div>
 
                  <div>
                    <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Horarios (Domingos)</label>
-                   <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
-                     <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">event</span></span>
-                     <input value={settings?.hours_sundays || ''} onChange={e=>handleChangeSetting('hours_sundays', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent" placeholder="Ej: 08:00 a 12:00 o Cerrado" />
+                   <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner items-center pl-4 pr-2">
+                     <span className="material-symbols-outlined text-[18px] text-slate-400 mr-2">event</span>
+                     <div className="flex items-center gap-2 w-full py-2">
+                       <input type="time" value={(settings?.hours_sundays || '08:00 a 12:00').includes('Cerrado') ? '' : (settings?.hours_sundays || '08:00 a 12:00').split(' a ')[0] || '08:00'} onChange={e => handleChangeSetting('hours_sundays', `${e.target.value} a ${(settings?.hours_sundays || '08:00 a 12:00').split(' a ')[1] || '12:00'}`)} disabled={settings?.hours_sundays === 'Cerrado'} className="bg-slate-800 text-white p-2 rounded-lg text-sm flex-1 outline-none text-center disabled:opacity-50" />
+                       <span className="text-slate-500 font-bold">a</span>
+                       <input type="time" value={(settings?.hours_sundays || '08:00 a 12:00').includes('Cerrado') ? '' : (settings?.hours_sundays || '08:00 a 12:00').split(' a ')[1] || '12:00'} onChange={e => handleChangeSetting('hours_sundays', `${(settings?.hours_sundays || '08:00 a 12:00').split(' a ')[0] || '08:00'} a ${e.target.value}`)} disabled={settings?.hours_sundays === 'Cerrado'} className="bg-slate-800 text-white p-2 rounded-lg text-sm flex-1 outline-none text-center disabled:opacity-50" />
+                       <label className="flex items-center gap-1.5 text-xs text-slate-300 ml-2 cursor-pointer bg-slate-800 p-2.5 rounded-lg active:scale-95 transition-all">
+                         <input type="checkbox" checked={settings?.hours_sundays === 'Cerrado'} onChange={e => handleChangeSetting('hours_sundays', e.target.checked ? 'Cerrado' : '08:00 a 12:00')} className="scale-110 accent-primary" />
+                         Cerrado
+                       </label>
+                     </div>
                    </div>
                  </div>
                  
