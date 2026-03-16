@@ -25,10 +25,14 @@
 <body>
     <div id="map"></div>
     <script>
-        // Coordenadas objetivo (Santaní, Gomería C y C)
-        var targetCoord = [-56.44251472304685, -24.660703544925347]; // Lng, Lat
+        const urlParams = new URLSearchParams(window.location.search);
+        const lat = parseFloat(urlParams.get('lat')) || -24.661366060311497;
+        const lng = parseFloat(urlParams.get('lng')) || -56.44231702242412;
+
+        // Coordenadas objetivo
+        var targetCoord = [lng, lat]; // Lng, Lat
         // Coordenadas de inicio más alejadas y rectas
-        var startCoord = [-56.44251472304685, -21.0];
+        var startCoord = [lng, lat + 3.66];
 
         var map = new maplibregl.Map({
             container: 'map',

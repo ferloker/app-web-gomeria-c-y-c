@@ -280,9 +280,21 @@ export default function AdminDashboard() {
                  
                  <div>
                    <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Link de Google Maps</label>
-                   <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
+                   <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner mb-4">
                      <span className="flex items-center justify-center px-4 bg-slate-800 text-slate-400"><span className="material-symbols-outlined text-[18px]">map</span></span>
                      <input value={settings?.maps_link || ''} onChange={e=>handleChangeSetting('maps_link', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent" />
+                   </div>
+                   
+                   <label className="text-xs font-bold text-slate-400 block mb-1.5 ml-1">Coordenadas GPS del Mapa (Latitud y Longitud)</label>
+                   <div className="flex gap-3">
+                     <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner flex-1">
+                        <span className="flex items-center justify-center pl-4 pr-3 bg-slate-800 text-slate-400 text-xs font-bold">Lat</span>
+                        <input value={settings?.map_lat || ''} onChange={e=>handleChangeSetting('map_lat', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent font-mono" placeholder="-24.661366" />
+                     </div>
+                     <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner flex-1">
+                        <span className="flex items-center justify-center pl-4 pr-3 bg-slate-800 text-slate-400 text-xs font-bold">Lng</span>
+                        <input value={settings?.map_lng || ''} onChange={e=>handleChangeSetting('map_lng', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent font-mono" placeholder="-56.442317" />
+                     </div>
                    </div>
                  </div>
                </div>
