@@ -5,31 +5,33 @@ export function useGitData(path, defaultConfig) {
   const [data, setData] = useState(defaultConfig);
   const [loading, setLoading] = useState(true);
 
+  const fetchData = async (isMounted = true) => {
+    setLoading(true);
+    // Usar timestamp para romper la cache estresante de GitHub Raw
+    const url = `${getRawUrl(path)}?t=${new Date().getTime()}`;
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        const json = await res.json();
+        if (isMounted) setData(json);
+      } else {
+        // Si es 404 es porque aún no fue creado en main (ej: primer deploy)
+        if (isMounted) setData(defaultConfig);
+      }
+    } catch (err) {
+      console.error('Error fetching data from github raw:', err);
+    } finally {
+      if (isMounted) setLoading(false);
+    }
+  };
+
   useEffect(() => {
     let isMounted = true;
-    const fetchData = async () => {
-      // Usar timestamp para romper la cache estresante de GitHub Raw
-      const url = `${getRawUrl(path)}?t=${new Date().getTime()}`;
-      try {
-        const res = await fetch(url);
-        if (res.ok) {
-          const json = await res.json();
-          if (isMounted) setData(json);
-        } else {
-          // Si es 404 es porque aún no fue creado en main (ej: primer deploy)
-          if (isMounted) setData(defaultConfig);
-        }
-      } catch (err) {
-        console.error('Error fetching data from github raw:', err);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-    fetchData();
+    fetchData(isMounted);
     return () => { isMounted = false; };
   }, [path]);
 
-  return { data, loading, setData }; // devolvemos setData por si queremos hacer un intent de Optimistic UI update
+  return { data, loading, setData, refetch: () => fetchData(true) }; // devolvemos refetch para sincronizar manual
 }
 
 export function useSettings() {

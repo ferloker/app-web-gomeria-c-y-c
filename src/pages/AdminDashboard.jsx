@@ -9,8 +9,8 @@ export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   
   // Custom fetch using useGitData. Return references to update them locally.
-  const { data: inventory, loading: invLoading, setData: setInventory } = useGitData('src/data/inventory.json', []);
-  const { data: settings, loading: setLoading, setData: setSettings } = useGitData('src/data/settings.json', { is_open: true, pause_auxilio: false });
+  const { data: inventory, loading: invLoading, setData: setInventory, refetch: refetchInventory } = useGitData('src/data/inventory.json', []);
+  const { data: settings, loading: setLoading, setData: setSettings, refetch: refetchSettings } = useGitData('src/data/settings.json', { is_open: true, pause_auxilio: false });
   
   const [activeTab, setActiveTab] = useState('inventory');
   const [form, setForm] = useState({ brand: '', size: '', type: 'Nuevo', price_only: '', stock: '1' });
@@ -171,7 +171,12 @@ export default function AdminDashboard() {
               <section>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest">Stock en Venta</h3>
-                  {invLoading && <span className="text-primary text-xs font-bold animate-pulse">Sincronizando...</span>}
+                  <div className="flex items-center gap-2">
+                    {invLoading && <span className="text-primary text-xs font-bold animate-pulse">Sincronizando...</span>}
+                    <button onClick={refetchInventory} className="bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 p-1.5 rounded-lg transition-all border border-white/5" title="Forzar Sincronización con GitHub">
+                      <span className={`material-symbols-outlined text-[18px] ${invLoading ? 'animate-spin text-primary' : ''}`}>sync</span>
+                    </button>
+                  </div>
                 </div>
                 <div className="space-y-3">
                   {inventory.filter(i => i.stock > 0).map(item => (
@@ -199,17 +204,6 @@ export default function AdminDashboard() {
 
          {activeTab === 'settings' && (
            <div className="space-y-6 animate-in fade-in zoom-in-95 duration-200">
-             <div className="bg-slate-900 border border-white/10 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-               <span className="material-symbols-outlined absolute right-[-10px] top-[-10px] text-8xl opacity-5 pointer-events-none text-white">database</span>
-               <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2 relative z-10"><span className="material-symbols-outlined text-primary text-xl">key</span> Conexión GitHub CMS</h3>
-               <div className="relative z-10">
-                  <div className="flex bg-background-dark border border-white/5 rounded-xl overflow-hidden focus-within:border-primary transition-colors shadow-inner">
-                    <input type="password" defaultValue={localStorage.getItem('GOMERIA_GITHUB_TOKEN') || ''} onChange={e => localStorage.setItem('GOMERIA_GITHUB_TOKEN', e.target.value)} className="w-full p-4 text-sm text-white outline-none bg-transparent font-mono placeholder-slate-600" placeholder="Pega tu Personal Access Token (ghp_...)" />
-                  </div>
-                  <p className="text-[11px] font-medium text-slate-500 mt-2 px-1">Si la app arroja <b>"Error al guardar: Bad credentials"</b>, asegúrate de poner un Token válido aquí.</p>
-               </div>
-             </div>
-
              <div className={`border rounded-3xl p-6 flex flex-col items-center gap-4 transition-colors ${settings?.pause_auxilio ? 'bg-red-950/40 border-red-500 shadow-[0_0_30px_rgba(220,38,38,0.3)]' : 'bg-slate-900 border-white/5 shadow-xl'}`}>
                <button onClick={handleTogglePanic} className={`w-20 h-20 rounded-full flex items-center justify-center text-white active:scale-90 transition-all shadow-xl ${settings?.pause_auxilio ? 'bg-red-500 animate-pulse shadow-red-500/50' : 'bg-slate-800'}`}>
                  <span className="material-symbols-outlined text-4xl">power_settings_new</span>

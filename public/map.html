@@ -10,14 +10,11 @@
         body { margin: 0; padding: 0; overflow: hidden; background-color: #0f172a; }
         #map { position: absolute; top: 0; bottom: 0; width: 100%; filter: invert(95%) hue-rotate(180deg) brightness(85%) contrast(85%); }
         .marker {
-            background-color: #ef4444; /* tailwind red-500 */
-            width: 28px;
-            height: 28px;
-            border-radius: 50% 50% 50% 0;
-            transform: rotate(-45deg);
-            border: 3px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             cursor: pointer;
+            filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.5)); /* Sombra para el elemento SVG */
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
         }
         /* OpenFreeMap attribution styling */
         .maplibregl-ctrl-attrib {
@@ -47,6 +44,7 @@
             // Marcador personalizado
             var el = document.createElement('div');
             el.className = 'marker';
+            el.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="#ea4335" stroke="white" stroke-width="1.5"><path d="M12 2.00003C8.13 2.00003 5 5.13003 5 9.00003C5 14.25 12 22 12 22C12 22 19 14.25 19 9.00003C19 5.13003 15.87 2.00003 12 2.00003ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9.00003C9.5 7.62003 10.62 6.50003 12 6.50003C13.38 6.50003 14.5 7.62003 14.5 9.00003C14.5 10.38 13.38 11.5 12 11.5Z"/></svg>';
             
             new maplibregl.Marker({ element: el, anchor: 'bottom' })
                 .setLngLat(targetCoord)
