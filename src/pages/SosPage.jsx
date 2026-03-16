@@ -11,8 +11,6 @@ export default function SosPage() {
   const [service, setService] = useState('');
   const [formData, setFormData] = useState({ name: '', phone: '' });
 
-  if (loading) return <div className="min-h-screen bg-background-dark text-white p-6">Cargando...</div>;
-
   const isPaused = settings.pause_auxilio;
   const phoneNumber = settings.whatsapp_number || '1234567890';
 

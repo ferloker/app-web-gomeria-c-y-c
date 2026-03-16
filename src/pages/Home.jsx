@@ -5,10 +5,6 @@ import { useSettings } from '../hooks/useFirebaseData';
 export default function Home() {
   const { settings, loading } = useSettings();
 
-  if (loading) {
-    return <div className="min-h-screen bg-background-dark flex items-center justify-center text-white">Cargando...</div>;
-  }
-
   return (
     <div className="min-h-screen bg-background-dark font-display">
       <Header isOpen={settings.is_open} />
